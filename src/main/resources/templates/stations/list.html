@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Stations · EV Booking')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container">
+    <h1 class="mb-4">Charging stations</h1>
+
+    <form class="row g-3 mb-4" method="get" th:action="@{/stations}">
+        <div class="col-md-4">
+            <label class="form-label" for="city">City</label>
+            <input class="form-control" id="city" name="city" type="text" th:value="${city}">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="type">Connector type</label>
+            <select class="form-select" id="type" name="type">
+                <option value="">Any</option>
+                <option th:each="t : ${connectorTypes}" th:value="${t}" th:text="${t}" th:selected="${type == t}"></option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="minKw">Min power (kW)</label>
+            <input class="form-control" id="minKw" name="minKw" type="number" step="0.1" min="0" th:value="${minKw}">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-primary w-100" type="submit">Filter</button>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="map-frame">
+                <div id="stationMap"></div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="list-group" id="stationList">
+                <a class="list-group-item list-group-item-action"
+                   th:each="s : ${stations}"
+                   th:href="@{/stations/{id}(id=${s.id})}">
+                    <div class="d-flex justify-content-between">
+                        <strong th:text="${s.name}">Station name</strong>
+                        <small class="text-muted" th:text="${s.city}">City</small>
+                    </div>
+                    <small th:text="${s.address}">Address</small>
+                </a>
+                <div th:if="${#lists.isEmpty(stations)}" class="text-muted">No stations match those filters.</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script th:src="@{/js/map.js}"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('403 · Forbidden')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<main class="container text-center my-5">
+    <h1 class="display-3">403</h1>
+    <p class="lead">You don't have permission to view this page.</p>
+    <p class="text-muted" th:if="${message}" th:text="${message}"></p>
+    <a class="btn btn-primary" th:href="@{/}">Go home</a>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

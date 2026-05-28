@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:replace="~{fragments/layout :: head(${station.name} + ' · EV Booking')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container">
+    <a th:href="@{/stations}" class="btn btn-link ps-0">← Back to all stations</a>
+
+    <h1 th:text="${station.name}">Station name</h1>
+    <p class="text-muted" th:text="${station.address + ' · ' + station.city}">Address</p>
+    <p th:if="${station.description}" th:text="${station.description}"></p>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="map-frame" style="height:320px; max-width:100%;">
+                <div id="stationMap"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h3>Connectors</h3>
+            <table class="table">
+                <thead>
+                <tr><th>Type</th><th>Power</th><th>Price/h</th><th>Status</th><th></th></tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${station.connectors}">
+                    <td th:text="${c.connectorType}">Type</td>
+                    <td><span th:text="${c.powerKw}">22</span> kW</td>
+                    <td>£<span th:text="${c.pricePerHour}">3.50</span></td>
+                    <td>
+                        <span th:if="${c.active}" class="badge bg-success">Active</span>
+                        <span th:unless="${c.active}" class="badge bg-secondary">Inactive</span>
+                    </td>
+                    <td>
+                        <a sec:authorize="hasRole('DRIVER') or hasRole('ADMIN')"
+                           th:if="${c.active}"
+                           th:href="@{/bookings/new(connectorId=${c.id})}"
+                           class="btn btn-sm btn-primary">Book</a>
+                        <a sec:authorize="!isAuthenticated()"
+                           th:if="${c.active}"
+                           th:href="@{/login}"
+                           class="btn btn-sm btn-outline-primary">Log in to book</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script th:inline="javascript">
+    const lat = /*[[${station.latitude}]]*/ 0;
+    const lng = /*[[${station.longitude}]]*/ 0;
+    const name = /*[[${station.name}]]*/ '';
+    const map = L.map('stationMap').setView([lat, lng], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker([lat, lng]).addTo(map).bindPopup(name).openPopup();
+</script>
+</body>
+</html>

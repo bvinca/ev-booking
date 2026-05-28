@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Register · EV Booking')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container" style="max-width: 520px;">
+    <h1 class="mb-4">Create your account</h1>
+
+    <form th:action="@{/register}" method="post" th:object="${registerForm}" novalidate>
+
+        <div class="mb-3">
+            <label class="form-label" for="fullName">Full name</label>
+            <input class="form-control" id="fullName" type="text" th:field="*{fullName}" required>
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" id="email" type="email" th:field="*{email}" required>
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" id="password" type="password" th:field="*{password}" required>
+            <div class="form-text">At least 8 characters.</div>
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="confirmPassword">Confirm password</label>
+            <input class="form-control" id="confirmPassword" type="password" th:field="*{confirmPassword}" required>
+            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">Register</button>
+    </form>
+
+    <p class="text-center mt-3">
+        Already have an account? <a th:href="@{/login}">Log in</a>.
+    </p>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

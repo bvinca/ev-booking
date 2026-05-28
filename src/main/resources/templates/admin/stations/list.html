@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Admin · Stations')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Manage stations</h1>
+        <a class="btn btn-primary" th:href="@{/admin/stations/new}">+ New station</a>
+    </div>
+
+    <div th:if="${flashMessage}" class="alert alert-info" th:text="${flashMessage}"></div>
+
+    <table class="table table-striped">
+        <thead>
+        <tr><th>ID</th><th>Name</th><th>City</th><th>Connectors</th><th></th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${stations}">
+            <td th:text="${s.id}">1</td>
+            <td th:text="${s.name}">Name</td>
+            <td th:text="${s.city}">City</td>
+            <td>
+                <div th:each="c : ${s.connectors}" class="d-inline-block me-2">
+                    <span class="badge bg-light text-dark"
+                          th:text="${c.connectorType + ' ' + c.powerKw + 'kW'}">type</span>
+                    <a th:href="@{/admin/connectors/{id}/edit(id=${c.id})}" class="small">edit</a>
+                    <form th:action="@{/admin/connectors/{id}/delete(id=${c.id})}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-link btn-sm p-0 text-danger"
+                                onclick="return confirm('Delete this connector?')">delete</button>
+                    </form>
+                </div>
+                <a th:href="@{/admin/stations/{id}/connectors/new(id=${s.id})}" class="small">+ add</a>
+            </td>
+            <td class="text-end">
+                <a th:href="@{/admin/stations/{id}/edit(id=${s.id})}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                <form th:action="@{/admin/stations/{id}/delete(id=${s.id})}" method="post" class="d-inline">
+                    <button class="btn btn-sm btn-outline-danger" type="submit"
+                            onclick="return confirm('Delete station and its connectors?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

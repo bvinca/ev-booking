@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Login · EV Booking')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container" style="max-width: 480px;">
+    <h1 class="mb-4">Login</h1>
+
+    <div th:if="${param.error}" class="alert alert-danger">
+        Invalid email or password.
+    </div>
+    <div th:if="${param.logout}" class="alert alert-success">
+        You have been logged out.
+    </div>
+    <div th:if="${registrationSuccess}" class="alert alert-success">
+        Account created. Please log in.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-control" id="email" name="email" type="email" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="password">Password</label>
+            <input class="form-control" id="password" name="password" type="password" required>
+        </div>
+        <button class="btn btn-primary w-100" type="submit">Log in</button>
+    </form>
+
+    <p class="text-center mt-3">
+        No account? <a th:href="@{/register}">Register</a>.
+    </p>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" th:content="${_csrf?.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf?.headerName}"/>
+    <title th:text="${title} ?: 'EV Booking'">EV Booking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">⚡ EV Booking</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMain">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/stations}">Stations</a></li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/dashboard}">Dashboard</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" th:href="@{/admin}">Admin</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/register}">Register</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <span class="nav-link text-light" sec:authentication="principal.fullName">User</span>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-link nav-link">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<footer th:fragment="footer" class="mt-5 py-4 bg-light text-center text-muted small">
+    <div class="container">
+        EV Charging Booking · University of York coursework · Server instance:
+        <span th:text="${@environment.getProperty('app.instance-id')}">instance</span>
+    </div>
+</footer>
+
+</body>
+</html>

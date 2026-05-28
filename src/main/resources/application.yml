@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: ev-booking
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      table-name: SPRING_SESSION
+  thymeleaf:
+    cache: false
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+server:
+  port: ${PORT:8080}
+  forward-headers-strategy: framework
+  error:
+    whitelabel:
+      enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+
+app:
+  instance-id: ${APP_INSTANCE_ID:${HOSTNAME:local-${random.uuid}}}
+  booking:
+    slot-minutes: 30
+    max-slots-per-booking: 16          # 8 hours max
+    max-advance-days: 60               # cannot book more than 60 days ahead
+  admin-bootstrap:
+    email: ${APP_ADMIN_BOOTSTRAP_EMAIL:}
+    password: ${APP_ADMIN_BOOTSTRAP_PASSWORD:}
+    full-name: ${APP_ADMIN_BOOTSTRAP_NAME:System Administrator}

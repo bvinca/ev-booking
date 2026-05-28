@@ -1,0 +1,38 @@
+{
+  "name": "EV Booking Platform",
+  "description": "Cloud-ready EV charging station booking system (Spring Boot monolith).",
+  "keywords": ["spring-boot", "java", "postgresql", "ev-charging"],
+  "stack": "heroku-22",
+  "addons": [
+    {
+      "plan": "heroku-postgresql:essential-0"
+    }
+  ],
+  "env": {
+    "SPRING_PROFILES_ACTIVE": {
+      "description": "Active Spring profile",
+      "value": "prod"
+    },
+    "APP_ADMIN_BOOTSTRAP_EMAIL": {
+      "description": "Email of the initial administrator account, created on first start if no admin exists.",
+      "required": true
+    },
+    "APP_ADMIN_BOOTSTRAP_PASSWORD": {
+      "description": "Initial password for the bootstrap admin. Change it immediately after first login.",
+      "required": true
+    },
+    "APP_ADMIN_BOOTSTRAP_NAME": {
+      "description": "Display name for the bootstrap admin.",
+      "value": "System Administrator"
+    },
+    "JAVA_OPTS": {
+      "description": "JVM tuning for the dyno",
+      "value": "-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/java"
+    }
+  ]
+}

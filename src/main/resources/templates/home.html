@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Home · EV Booking')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container">
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-4">
+            <h1 class="display-5 fw-bold">Find and book EV charging slots</h1>
+            <p class="col-md-9 fs-5">
+                Browse public charging stations on a map, see live connector availability,
+                and reserve a 30-minute slot in seconds.
+            </p>
+            <a class="btn btn-primary btn-lg" th:href="@{/stations}">Browse stations</a>
+            <a class="btn btn-outline-secondary btn-lg" th:href="@{/register}">Create an account</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <h3>🗺️ Map view</h3>
+            <p>Find stations near you on an interactive map and inspect connectors and pricing.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>⚡ Connectors</h3>
+            <p>Supports Type 2, CCS, CHAdeMO, and Tesla connectors with power ratings up to 350 kW.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>🔒 Safe bookings</h3>
+            <p>Concurrency-safe reservations — no double-booking, even under heavy load.</p>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

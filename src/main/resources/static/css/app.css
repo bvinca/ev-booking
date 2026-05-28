@@ -1,0 +1,49 @@
+/* Project-wide minor overrides. Bootstrap supplies the heavy lifting. */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1 0 auto;
+}
+.btn-link.nav-link {
+    color: rgba(255,255,255,.7);
+    text-decoration: none;
+}
+.btn-link.nav-link:hover {
+    color: #fff;
+}
+.map-frame {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    height: 420px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    background: #eef2f7;
+}
+#stationMap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.availability-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+    gap: 4px;
+}
+.slot {
+    padding: 6px 4px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    user-select: none;
+}
+.slot.free       { background: #d1e7dd; }
+.slot.free.selected { background: #198754; color: #fff; }
+.slot.booked     { background: #f8d7da; cursor: not-allowed; color: #6c757d; }
+.slot.past       { background: #e9ecef; cursor: not-allowed; color: #adb5bd; }

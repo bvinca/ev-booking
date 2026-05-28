@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('500 · Server error')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<main class="container text-center my-5">
+    <h1 class="display-3">500</h1>
+    <p class="lead">Something went wrong on our side. Please try again in a moment.</p>
+    <a class="btn btn-primary" th:href="@{/}">Go home</a>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

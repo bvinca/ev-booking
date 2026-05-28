@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:10}
+      minimum-idle: ${DB_POOL_MIN:2}
+  jpa:
+    properties:
+      hibernate:
+        format_sql: false
+  thymeleaf:
+    cache: true
+
+logging:
+  level:
+    root: INFO
+    com.smartcharge.evbooking: INFO
+  pattern:
+    console: '%d{yyyy-MM-dd''T''HH:mm:ss.SSSXXX} %-5level [${app.instance-id:unknown}] [%thread] %logger{36} - %msg%n'
+
+app:
+  seed:
+    enabled: false
