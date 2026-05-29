@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
-<head th:fragment="head(title, pageCss=null)">
+<head th:fragment="head(title, pageCss)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="_csrf" th:content="${_csrf?.token}"/>
@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
     <link rel="stylesheet" th:href="@{/css/app.css}">
-    <link rel="stylesheet" th:if="${pageCss}" th:href="@{${pageCss}}">
+    <!-- Per-page stylesheet, e.g. the homepage marketing layout in /css/home.css -->
+    <link rel="stylesheet" th:if="${pageCss}" th:href="${pageCss}">
     <script th:src="@{/js/nav.js}" defer></script>
 </head>
 <body>
