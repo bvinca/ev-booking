@@ -56,4 +56,15 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @EntityGraph(attributePaths = {"user", "connector", "connector.station"})
     @Query("SELECT b FROM Booking b ORDER BY b.startTime DESC")
     List<Booking> findAllOrderedByStartDesc();
+
+    /** Estimated energy from completed sessions (duration × connector power). */
+    @Query(value = """
+        SELECT COALESCE(SUM(
+            EXTRACT(EPOCH FROM (b.end_time - b.start_time)) / 3600.0 * c.power_kw
+        ), 0)
+        FROM bookings b
+        JOIN connectors c ON b.connector_id = c.id
+        WHERE b.status = 'COMPLETED'
+        """, nativeQuery = true)
+    double estimateTotalKwhDelivered();
 }
