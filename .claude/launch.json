@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ev-booking",
+      "runtimeExecutable": "mvn",
+      "runtimeArgs": ["spring-boot:run", "-q", "-Dspring-boot.run.jvmArguments=-Dspring.devtools.restart.enabled=false -Dspring.profiles.active=dev"],
+      "port": 8080
+    }
+  ]
+}

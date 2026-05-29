@@ -141,6 +141,16 @@ body.page-home .hp-headline em {
     background: linear-gradient(90deg, var(--hp-primary), var(--hp-accent));
     -webkit-background-clip: text; background-clip: text; color: transparent;
 }
+body.page-home .hp-headline .hp-em-green {
+    background: none;
+    color: var(--hp-primary);
+    -webkit-text-fill-color: var(--hp-primary);
+}
+body.page-home .hp-headline .hp-em-blue {
+    background: none;
+    color: var(--hp-accent);
+    -webkit-text-fill-color: var(--hp-accent);
+}
 body.page-home .hp-lede {
     font-size: 18px; color: var(--hp-muted); max-width: 540px; margin: 0 0 28px;
 }

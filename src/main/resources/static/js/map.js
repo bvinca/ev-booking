@@ -1,29 +1,27 @@
-// Renders the station map using Leaflet + CartoDB Dark Matter tiles
-// (dark theme companion to OpenStreetMap, free, no API key).
+// Renders the station map using Leaflet + CartoDB Positron tiles
+// (clean light theme companion to OpenStreetMap, free, no API key).
 (function () {
     const mapEl = document.getElementById('stationMap');
     if (!mapEl) return;
 
     const map = L.map('stationMap');
-    function refreshMapSize() {
-        map.invalidateSize();
-    }
+    function refreshMapSize() { map.invalidateSize(); }
     window.addEventListener('resize', refreshMapSize);
     if (window.ResizeObserver) {
         new ResizeObserver(refreshMapSize).observe(mapEl);
     }
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
         maxZoom: 19
     }).addTo(map);
 
-    // Custom electric-blue marker icon
+    // Brand-green marker with white ring, drops well on light tiles.
     const brandIcon = L.divIcon({
         className: 'ev-marker',
-        html: '<div style="width:26px;height:26px;border-radius:50%;background:#00AEEF;border:3px solid #0F172A;box-shadow:0 0 0 2px #00AEEF, 0 4px 12px rgba(0,174,239,0.6);display:grid;place-items:center;color:#0F172A;font-weight:900;font-size:13px;font-family:\'Plus Jakarta Sans\',sans-serif;">⚡</div>',
-        iconSize: [26, 26],
-        iconAnchor: [13, 13]
+        html: '<div style="width:28px;height:28px;border-radius:50%;background:#10B981;border:3px solid #FFFFFF;box-shadow:0 0 0 1px #10B981, 0 4px 14px rgba(16,185,129,0.45);display:grid;place-items:center;color:#FFFFFF;font-weight:900;font-size:13px;font-family:\'Plus Jakarta Sans\',sans-serif;">⚡</div>',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
     });
 
     const params = new URLSearchParams(window.location.search);

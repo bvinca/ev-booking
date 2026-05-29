@@ -67,14 +67,14 @@
     const lng = /*[[${station.longitude}]]*/ 0;
     const name = /*[[${station.name}]]*/ '';
     const map = L.map('stationMap').setView([lat, lng], 15);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; OpenStreetMap &copy; CARTO',
         subdomains: 'abcd', maxZoom: 19
     }).addTo(map);
     const brandIcon = L.divIcon({
         className: 'ev-marker',
-        html: '<div style="width:26px;height:26px;border-radius:50%;background:#00AEEF;border:3px solid #0F172A;box-shadow:0 0 0 2px #00AEEF, 0 4px 12px rgba(0,174,239,0.6);display:grid;place-items:center;color:#0F172A;font-weight:900;font-size:13px;">⚡</div>',
-        iconSize: [26, 26], iconAnchor: [13, 13]
+        html: '<div style="width:28px;height:28px;border-radius:50%;background:#10B981;border:3px solid #FFFFFF;box-shadow:0 0 0 1px #10B981, 0 4px 14px rgba(16,185,129,0.45);display:grid;place-items:center;color:#FFFFFF;font-weight:900;font-size:13px;">⚡</div>',
+        iconSize: [28, 28], iconAnchor: [14, 14]
     });
     L.marker([lat, lng], { icon: brandIcon }).addTo(map).bindPopup(name).openPopup();
     function refreshMapSize() { map.invalidateSize(); }
