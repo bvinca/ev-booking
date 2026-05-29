@@ -420,7 +420,39 @@ body.page-home .hp-cta .hp-btn-primary:hover { background: #F8FAFC; transform: t
     body.page-home section.hp-section { padding: 56px 0; }
     body.page-home .hp-stats-inner { grid-template-columns: repeat(2, 1fr); gap: 18px 0; }
     body.page-home .hp-features { grid-template-columns: 1fr; }
-    body.page-home .hp-search-card { grid-template-columns: 1fr; }
-    body.page-home .hp-search-card .hp-btn-primary { padding: 12px 18px; }
+    body.page-home .hp-search-card { grid-template-columns: 1fr; gap: 12px; }
+    body.page-home .hp-search-card .hp-field { padding: 10px 12px; }
+    body.page-home .hp-search-card .hp-btn-primary { padding: 12px 18px; width: 100%; }
     body.page-home .hp-map-canvas { height: 280px; }
+    body.page-home .hp-headline { font-size: clamp(2rem, 7vw + 0.5rem, 2.75rem); }
+    body.page-home .hp-lede { font-size: 16px; }
+    body.page-home .hp-steps { grid-template-columns: 1fr; gap: 28px; }
+    body.page-home .hp-step::after { display: none; }
+    body.page-home .hp-feature { padding: 22px; }
+    body.page-home .hp-station-cover { height: 110px; }
+    body.page-home .hp-cta { padding: 36px 24px; }
+    body.page-home .hp-cta h2 { font-size: 1.6rem; }
+    body.page-home .hp-tooltip { display: none; }
+    body.page-home .hp-map-legend { font-size: 11px; }
+}
+
+@media (max-width: 420px) {
+    /* Extra-small phones — drop the decorative map preview entirely */
+    body.page-home .hp-container { padding: 0 14px; }
+    body.page-home .hp-map-card { display: none; }
+    body.page-home .hp-hero { padding: 36px 0 24px; }
+    body.page-home section.hp-section { padding: 44px 0; }
+    body.page-home .hp-stats-inner { grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+    body.page-home .hp-stat .num { font-size: 1.8rem; }
+    body.page-home .hp-search-card { padding: 12px; }
+    body.page-home .hp-section-head h2 { font-size: 1.5rem; }
+    body.page-home .hp-eyebrow { font-size: 11px; }
+}
+
+/* Tap-target sizing on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    body.page-home .hp-btn { min-height: 44px; }
+    body.page-home .hp-search-card input,
+    body.page-home .hp-search-card select { min-height: 36px; font-size: 16px; }
+    body.page-home .hp-station { min-height: 44px; }
 }

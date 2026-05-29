@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('My profile · EV Booking', null)}"></head>
+<body>
+<header th:replace="~{fragments/layout :: navbar}"></header>
+
+<main class="container" style="max-width: 720px;">
+    <a th:href="@{/dashboard}" class="btn btn-link" style="padding-left:0;">← Dashboard</a>
+
+    <div class="page-head">
+        <div>
+            <h1>My profile</h1>
+            <p class="sub">Set your preferences and account details.</p>
+        </div>
+    </div>
+
+    <div th:if="${flashSuccess}" class="alert alert-success" th:text="${flashSuccess}"></div>
+    <div th:if="${flashError}"   class="alert alert-danger"  th:text="${flashError}"></div>
+
+    <!-- Account details (read-only) -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="section-heading">Account</h2>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="form-label">Full name</div>
+                    <div th:text="${user.fullName}">Name</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-label">Email</div>
+                    <div th:text="${user.email}">email</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-label">Member since</div>
+                    <div th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd')}">date</div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-label">Status</div>
+                    <span th:if="${user.enabled}" class="badge bg-success">Active</span>
+                    <span th:unless="${user.enabled}" class="badge bg-warning">Disabled</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preferred connector -->
+    <div class="card">
+        <div class="card-body">
+            <h2 class="section-heading">Preferred connector</h2>
+            <p class="text-muted" style="margin-top: 0;">
+                Pick the connector type your vehicle uses. Whenever you browse stations, the
+                map and list will default to that filter — you can always clear it in the
+                search bar.
+            </p>
+
+            <div th:if="${preferredConnector != null}" class="alert alert-info" style="margin-top: 1rem;">
+                Current preference:
+                <strong th:text="${preferredConnector}">CCS</strong>
+            </div>
+
+            <form method="post" th:action="@{/dashboard/profile}" class="mt-3">
+                <div class="mb-4">
+                    <label class="form-label" for="preferredConnectorType">Connector type</label>
+                    <select class="form-select" id="preferredConnectorType" name="preferredConnectorType">
+                        <option value="">No preference</option>
+                        <option th:each="t : ${connectorTypes}"
+                                th:value="${t}"
+                                th:text="${t}"
+                                th:selected="${preferredConnector == t}"></option>
+                    </select>
+                    <div class="form-text">
+                        Supported: Type 2, CCS, CHAdeMO, Tesla.
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Save preference</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/stations}">Browse stations →</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

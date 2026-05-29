@@ -17,7 +17,7 @@
     </div>
 
     <div class="row g-3">
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-3">
             <div class="card stat-card">
                 <div class="card-body">
                     <div class="section-heading" style="margin-bottom: 0.25rem;">Upcoming</div>
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-3">
             <div class="card stat-card">
                 <div class="card-body">
                     <div class="section-heading" style="margin-bottom: 0.25rem;">Total</div>
@@ -35,11 +35,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4">
+        <div class="col-sm-6 col-md-3">
             <div class="card stat-card">
                 <div class="card-body">
-                    <div class="section-heading" style="margin-bottom: 0.5rem;">Manage</div>
-                    <a class="btn btn-outline-secondary w-100" th:href="@{/dashboard/bookings}">My bookings</a>
+                    <div class="section-heading" style="margin-bottom: 0.5rem;">My bookings</div>
+                    <a class="btn btn-outline-secondary w-100" th:href="@{/dashboard/bookings}">View all →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-3">
+            <div class="card stat-card is-interactive">
+                <div class="card-body">
+                    <div class="section-heading" style="margin-bottom: 0.25rem;">Preferred connector</div>
+                    <div style="margin: 0.5rem 0 0.75rem;">
+                        <span th:if="${preferredConnector != null}" class="badge bg-success" th:text="${preferredConnector}">CCS</span>
+                        <span th:if="${preferredConnector == null}" class="badge bg-secondary">None set</span>
+                    </div>
+                    <a class="btn btn-link" style="padding: 0;" th:href="@{/dashboard/profile}">My profile →</a>
                 </div>
             </div>
         </div>

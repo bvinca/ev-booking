@@ -2,6 +2,7 @@ package com.smartcharge.evbooking.service;
 
 import com.smartcharge.evbooking.domain.Role;
 import com.smartcharge.evbooking.domain.User;
+import com.smartcharge.evbooking.domain.enums.ConnectorType;
 import com.smartcharge.evbooking.domain.enums.RoleName;
 import com.smartcharge.evbooking.repository.RoleRepository;
 import com.smartcharge.evbooking.repository.UserRepository;
@@ -73,5 +74,15 @@ public class UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmailIgnoreCase(email)
             .orElseThrow(() -> new ResourceNotFoundException("User with email " + email));
+    }
+
+    /**
+     * Set (or clear, with {@code null}) the driver's preferred connector type.
+     * Used as the default filter on the station map and list pages.
+     */
+    public User updatePreferredConnector(Long userId, ConnectorType type) {
+        User user = findById(userId);
+        user.setPreferredConnectorType(type);
+        return userRepository.save(user);
     }
 }

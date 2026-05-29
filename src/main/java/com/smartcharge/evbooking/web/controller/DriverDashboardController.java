@@ -1,9 +1,11 @@
 package com.smartcharge.evbooking.web.controller;
 
 import com.smartcharge.evbooking.domain.Booking;
+import com.smartcharge.evbooking.domain.User;
 import com.smartcharge.evbooking.security.SecurityUser;
 import com.smartcharge.evbooking.service.BookingPolicy;
 import com.smartcharge.evbooking.service.BookingService;
+import com.smartcharge.evbooking.service.UserService;
 import com.smartcharge.evbooking.service.exception.BookingConflictException;
 import com.smartcharge.evbooking.service.exception.ForbiddenOperationException;
 import com.smartcharge.evbooking.service.exception.InvalidBookingException;
@@ -31,11 +33,16 @@ public class DriverDashboardController {
 
     private final BookingService bookingService;
     private final BookingPolicy bookingPolicy;
+    private final UserService userService;
     private final Clock clock;
 
-    public DriverDashboardController(BookingService bookingService, BookingPolicy bookingPolicy, Clock clock) {
+    public DriverDashboardController(BookingService bookingService,
+                                     BookingPolicy bookingPolicy,
+                                     UserService userService,
+                                     Clock clock) {
         this.bookingService = bookingService;
         this.bookingPolicy = bookingPolicy;
+        this.userService = userService;
         this.clock = clock;
     }
 
@@ -44,8 +51,10 @@ public class DriverDashboardController {
         Instant now = Instant.now(clock);
         List<Booking> all = bookingService.findOwnBookings(principal.getId());
         List<Booking> upcoming = all.stream().filter(b -> b.getStartTime().isAfter(now)).toList();
+        User me = userService.findById(principal.getId());
         model.addAttribute("upcoming", upcoming);
         model.addAttribute("totalCount", all.size());
+        model.addAttribute("preferredConnector", me.getPreferredConnectorType());
         return "dashboard/driver";
     }
 

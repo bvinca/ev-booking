@@ -925,4 +925,58 @@ textarea.form-control { min-height: 120px; resize: vertical; }
     .app-brand { font-size: 1rem; }
     .app-brand .logo { width: 34px; height: 34px; }
     .app-brand-text { max-width: 9rem; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Touch targets — 44x44 minimum per WCAG 2.5.5 */
+    .btn:not(.btn-sm):not(.btn-link) { min-height: 44px; padding: 0.7rem 1rem; }
+    .btn-sm { min-height: 36px; }
+    .form-control, .form-select { min-height: 44px; padding: 0.7rem 0.9rem; font-size: 16px; }
+    /* font-size: 16px prevents iOS Safari zoom-on-focus */
+
+    /* Tighter page rhythm on small phones */
+    main { padding: var(--space-6) 0 var(--space-10); }
+    .container, .container-fluid { padding-left: var(--space-3); padding-right: var(--space-3); }
+    .page-head { margin-bottom: var(--space-5); }
+    .section-heading { margin-bottom: var(--space-3); }
+    .card-body { padding: var(--space-4); }
+    .stat-card .display-6 { font-size: 1.75rem; }
+    .auth-card { padding: var(--space-6) var(--space-5); border-radius: var(--r-lg); }
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.35rem; }
+    h3 { font-size: 1.15rem; }
+
+    /* Filter bar gets columns stacked + larger tap targets */
+    .filter-bar { padding: var(--space-4); }
+    .filter-bar .row > [class*="col-"] { margin-bottom: var(--space-3); }
+    .filter-bar .row > [class*="col-"]:last-child { margin-bottom: 0; }
+
+    /* Tables: scroll horizontally without losing readability */
+    .table-responsive .table { min-width: 480px; }
+    .table thead th { font-size: 0.7rem; padding: var(--space-3) var(--space-3); }
+    .table tbody td { padding: var(--space-3); }
+
+    /* Footer text doesn't overflow */
+    .app-footer { padding: var(--space-5) 0; font-size: 0.78rem; }
+    .app-footer code { font-size: 0.7rem; word-break: break-all; }
+
+    /* Availability slot picker — 4 columns max on phones */
+    .availability-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 5px; }
+
+    /* Map controls big enough to tap */
+    .leaflet-control-zoom a { width: 36px !important; height: 36px !important; line-height: 36px !important; font-size: 18px !important; }
+}
+
+@media (max-width: 374px) {
+    /* iPhone SE and below */
+    .container, .container-fluid { padding-left: var(--space-2); padding-right: var(--space-2); }
+    .app-brand-text { max-width: 7rem; }
+    h1 { font-size: 1.5rem; }
+    .stat-card .display-6 { font-size: 1.5rem; }
+    .auth-card { padding: var(--space-5) var(--space-4); }
+    .map-frame { height: 280px; }
+}
+
+/* Ensure layout doesn't break in landscape on short phones */
+@media (max-height: 480px) and (orientation: landscape) {
+    .auth-wrap { min-height: auto; padding: var(--space-6) var(--space-4); }
+    .hero { padding: var(--space-6) 0 var(--space-4); }
 }

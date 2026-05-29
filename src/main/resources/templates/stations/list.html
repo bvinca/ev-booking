@@ -12,6 +12,14 @@
         </div>
     </div>
 
+    <div th:if="${defaultedFromProfile}" class="alert alert-info" style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap;">
+        <span>
+            Showing only your preferred connector
+            (<strong th:text="${type}">CCS</strong>).
+        </span>
+        <a class="btn btn-link" style="padding:0;" th:href="@{/stations(type='')}">Show all connectors</a>
+    </div>
+
     <form class="filter-bar row g-3" method="get" th:action="@{/stations}">
         <div class="col-md-4">
             <label class="form-label" for="city">City</label>

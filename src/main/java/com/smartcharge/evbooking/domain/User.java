@@ -1,5 +1,6 @@
 package com.smartcharge.evbooking.domain;
 
+import com.smartcharge.evbooking.domain.enums.ConnectorType;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -30,6 +31,10 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "preferred_connector_type", length = 30)
+    private ConnectorType preferredConnectorType;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "user_roles",
@@ -59,6 +64,8 @@ public class User {
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
     public Instant getCreatedAt() { return createdAt; }
     public Set<Role> getRoles() { return roles; }
+    public ConnectorType getPreferredConnectorType() { return preferredConnectorType; }
+    public void setPreferredConnectorType(ConnectorType preferredConnectorType) { this.preferredConnectorType = preferredConnectorType; }
 
     @Override
     public boolean equals(Object o) {
