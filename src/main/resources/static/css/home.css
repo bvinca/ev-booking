@@ -20,7 +20,18 @@ body.page-home {
     background: var(--hp-bg) !important;
     color: var(--hp-ink) !important;
     line-height: 1.55;
+    overflow-x: hidden;
 }
+
+/* Defensive — every homepage section clips its decorative bleeds */
+body.page-home main,
+body.page-home .hp-hero,
+body.page-home .hp-section,
+body.page-home .hp-stats {
+    max-width: 100%;
+    overflow-x: clip;
+}
+body.page-home .hp-container { max-width: 100%; }
 
 body.page-home * { box-sizing: border-box; }
 body.page-home a { color: inherit; text-decoration: none; }
