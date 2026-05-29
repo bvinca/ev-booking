@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{fragments/layout :: head('My bookings · EV Booking')}"></head>
+<head th:replace="~{fragments/layout :: head('My bookings · EV Booking', null)}"></head>
 <body>
 <header th:replace="~{fragments/layout :: navbar}"></header>
 
@@ -38,13 +38,18 @@
                 <span th:if="${b.status.name() == 'COMPLETED'}" class="badge bg-info">Completed</span>
             </td>
             <td class="text-end">
-                <form th:if="${b.status.name() == 'CONFIRMED'} and ${b.startTime.isAfter(now)}"
-                      method="post"
-                      th:action="@{/dashboard/bookings/{id}/cancel(id=${b.id})}">
-                    <button class="btn btn-outline-danger btn-sm"
-                            type="submit"
-                            onclick="return confirm('Cancel this booking?')">Cancel</button>
-                </form>
+                <div class="d-flex gap-2" style="justify-content: flex-end;"
+                     th:if="${b.status.name() == 'CONFIRMED'} and ${b.startTime.isAfter(now)}">
+                    <a class="btn btn-outline-secondary btn-sm"
+                       th:href="@{/dashboard/bookings/{id}/edit(id=${b.id})}">Edit</a>
+                    <form method="post"
+                          th:action="@{/dashboard/bookings/{id}/cancel(id=${b.id})}"
+                          style="display:inline;">
+                        <button class="btn btn-outline-danger btn-sm"
+                                type="submit"
+                                onclick="return confirm('Cancel this booking?')">Cancel</button>
+                    </form>
+                </div>
             </td>
         </tr>
         </tbody>

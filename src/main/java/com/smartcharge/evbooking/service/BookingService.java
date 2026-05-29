@@ -215,6 +215,15 @@ public class BookingService {
         return bookingRepository.findAllOrderedByStartDesc();
     }
 
+    /** Fetch a booking, enforcing that the requester owns it (unless admin). */
+    @Transactional(readOnly = true)
+    public Booking findOwnedBooking(Long bookingId, Long requesterUserId, boolean requesterIsAdmin) {
+        Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new ResourceNotFoundException("Booking", bookingId));
+        assertOwnerOrAdmin(booking, requesterUserId, requesterIsAdmin);
+        return booking;
+    }
+
     @Transactional(readOnly = true)
     public Booking findById(Long id) {
         return bookingRepository.findById(id)

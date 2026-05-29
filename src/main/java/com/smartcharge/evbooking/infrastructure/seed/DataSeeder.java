@@ -4,8 +4,8 @@ import com.smartcharge.evbooking.domain.ChargingStation;
 import com.smartcharge.evbooking.domain.Connector;
 import com.smartcharge.evbooking.domain.enums.ConnectorType;
 import com.smartcharge.evbooking.repository.ChargingStationRepository;
+import com.smartcharge.evbooking.repository.UserRepository;
 import com.smartcharge.evbooking.service.UserService;
-import com.smartcharge.evbooking.service.exception.EmailAlreadyUsedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,13 +27,16 @@ public class DataSeeder {
     private static final Logger log = LoggerFactory.getLogger(DataSeeder.class);
 
     private final ChargingStationRepository stationRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
     private final boolean enabled;
 
     public DataSeeder(ChargingStationRepository stationRepository,
+                      UserRepository userRepository,
                       UserService userService,
                       @Value("${app.seed.enabled:false}") boolean enabled) {
         this.stationRepository = stationRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
         this.enabled = enabled;
     }
@@ -48,9 +51,11 @@ public class DataSeeder {
         }
         log.info("Seeding demo data...");
 
-        try {
+        // Pre-check existence so a duplicate-email exception doesn't poison this
+        // outer transaction (which would later fail to commit with UnexpectedRollbackException).
+        if (!userRepository.existsByEmailIgnoreCase("driver@example.com")) {
             userService.registerDriver("Demo Driver", "driver@example.com", "password123");
-        } catch (EmailAlreadyUsedException ignored) { }
+        }
 
         // Six stations across Thessaloniki, Greece.
         seedStation("Aristotelous Square Hub", "Plateia Aristotelous", "Thessaloniki",
