@@ -2,43 +2,56 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/layout :: head('Admin · Connector form')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
-<main class="container" style="max-width: 560px;">
-    <h1 th:text="${editing} ? 'Edit connector' : 'New connector'">Connector form</h1>
+<main class="container" style="max-width: 600px;">
+    <a th:href="@{/admin/stations}" class="btn btn-link" style="padding-left:0;">← Back to stations</a>
 
-    <form th:action="${editing}
-                       ? @{/admin/connectors/{id}(id=${connectorId})}
-                       : @{/admin/stations/{sid}/connectors(sid=${stationId})}"
-          method="post" th:object="${connectorRequest}">
-
-        <div class="mb-3">
-            <label class="form-label">Connector type</label>
-            <select class="form-select" th:field="*{connectorType}" required>
-                <option th:each="t : ${connectorTypes}" th:value="${t}" th:text="${t}"></option>
-            </select>
+    <div class="page-head">
+        <div>
+            <h1 th:text="${editing} ? 'Edit connector' : 'New connector'">Connector form</h1>
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Power (kW)</label>
-            <input class="form-control" type="number" step="0.1" min="0.1" th:field="*{powerKw}" required>
-            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('powerKw')}" th:errors="*{powerKw}"></div>
+    <div class="card">
+        <div class="card-body">
+            <form th:action="${editing}
+                              ? @{/admin/connectors/{id}(id=${connectorId})}
+                              : @{/admin/stations/{sid}/connectors(sid=${stationId})}"
+                  method="post" th:object="${connectorRequest}">
+
+                <div class="mb-3">
+                    <label class="form-label">Connector type</label>
+                    <select class="form-select" th:field="*{connectorType}" required>
+                        <option th:each="t : ${connectorTypes}" th:value="${t}" th:text="${t}"></option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Power (kW)</label>
+                        <input class="form-control" type="number" step="0.1" min="0.1" th:field="*{powerKw}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('powerKw')}" th:errors="*{powerKw}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Price / hour (£)</label>
+                        <input class="form-control" type="number" step="0.01" min="0" th:field="*{pricePerHour}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('pricePerHour')}" th:errors="*{pricePerHour}"></div>
+                    </div>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="active" th:field="*{active}">
+                    <label class="form-check-label" for="active">Active and bookable</label>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/admin/stations}">Cancel</a>
+                </div>
+            </form>
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Price per hour (£)</label>
-            <input class="form-control" type="number" step="0.01" min="0" th:field="*{pricePerHour}" required>
-            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('pricePerHour')}" th:errors="*{pricePerHour}"></div>
-        </div>
-
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="active" th:field="*{active}">
-            <label class="form-check-label" for="active">Active and bookable</label>
-        </div>
-
-        <button class="btn btn-primary" type="submit">Save</button>
-        <a class="btn btn-link" th:href="@{/admin/stations}">Cancel</a>
-    </form>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

@@ -2,48 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/layout :: head('Admin · Bookings')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
 <main class="container">
-    <h1>All bookings</h1>
+    <div class="page-head">
+        <div>
+            <h1>All bookings</h1>
+            <p class="sub">Every reservation across every driver.</p>
+        </div>
+    </div>
 
-    <div th:if="${flashMessage}" class="alert alert-info" th:text="${flashMessage}"></div>
+    <div th:if="${flashMessage}" class="alert alert-success" th:text="${flashMessage}"></div>
 
-    <table class="table table-striped">
-        <thead><tr>
-            <th>ID</th><th>User</th><th>Station / Connector</th>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th><th>Driver</th><th>Station / Connector</th>
             <th>Start</th><th>End</th><th>Status</th><th></th>
-        </tr></thead>
+        </tr>
+        </thead>
         <tbody>
         <tr th:each="b : ${bookings}">
-            <td th:text="${b.id}">1</td>
+            <td class="text-muted" th:text="${b.id}">1</td>
             <td>
                 <div th:text="${b.user.fullName}">Name</div>
-                <small class="text-muted" th:text="${b.user.email}">email</small>
+                <small th:text="${b.user.email}">email</small>
             </td>
             <td>
                 <div th:text="${b.connector.station.name}">Station</div>
-                <small class="text-muted"
-                       th:text="${b.connector.connectorType} + ' · ' + ${b.connector.powerKw} + ' kW'">type</small>
+                <small>
+                    <span th:text="${b.connector.connectorType}">type</span> ·
+                    <span th:text="${b.connector.powerKw}">22</span> kW
+                </small>
             </td>
             <td th:text="${#temporals.format(b.startTime, 'yyyy-MM-dd HH:mm')}">start</td>
             <td th:text="${#temporals.format(b.endTime,   'yyyy-MM-dd HH:mm')}">end</td>
             <td>
                 <span th:if="${b.status.name() == 'CONFIRMED'}" class="badge bg-success">Confirmed</span>
                 <span th:if="${b.status.name() == 'CANCELLED'}" class="badge bg-secondary">Cancelled</span>
-                <span th:if="${b.status.name() == 'COMPLETED'}" class="badge bg-light text-dark">Completed</span>
+                <span th:if="${b.status.name() == 'COMPLETED'}" class="badge bg-info">Completed</span>
             </td>
-            <td>
+            <td class="text-end">
                 <form th:if="${b.status.name() == 'CONFIRMED'}"
-                      method="post" th:action="@{/admin/bookings/{id}/cancel(id=${b.id})}">
-                    <button class="btn btn-sm btn-outline-danger" type="submit"
+                      method="post" th:action="@{/admin/bookings/{id}/cancel(id=${b.id})}" style="display:inline;">
+                    <button class="btn btn-outline-danger btn-sm" type="submit"
                             onclick="return confirm('Cancel this booking?')">Cancel</button>
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
-    <p th:if="${#lists.isEmpty(bookings)}" class="text-muted">No bookings yet.</p>
+    <div th:if="${#lists.isEmpty(bookings)}" class="card">
+        <div class="card-body text-center text-muted">No bookings yet.</div>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

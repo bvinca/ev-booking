@@ -2,27 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/layout :: head('Admin · Dashboard')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
 <main class="container">
-    <h1>Admin dashboard</h1>
+    <div class="page-head">
+        <div>
+            <h1>Admin</h1>
+            <p class="sub">Operational overview.</p>
+        </div>
+    </div>
 
-    <div class="row g-3 my-3">
-        <div class="col-md-3"><div class="card"><div class="card-body">
-            <h5 class="card-title">Users</h5><p class="display-6" th:text="${userCount}">0</p>
-            <a class="btn btn-link p-0" th:href="@{/admin/users}">Manage</a>
-        </div></div></div>
-        <div class="col-md-3"><div class="card"><div class="card-body">
-            <h5 class="card-title">Stations</h5><p class="display-6" th:text="${stationCount}">0</p>
-            <a class="btn btn-link p-0" th:href="@{/admin/stations}">Manage</a>
-        </div></div></div>
-        <div class="col-md-3"><div class="card"><div class="card-body">
-            <h5 class="card-title">Connectors</h5><p class="display-6" th:text="${connectorCount}">0</p>
-        </div></div></div>
-        <div class="col-md-3"><div class="card"><div class="card-body">
-            <h5 class="card-title">Bookings</h5><p class="display-6" th:text="${bookingCount}">0</p>
-            <a class="btn btn-link p-0" th:href="@{/admin/bookings}">Manage</a>
-        </div></div></div>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="card stat-card is-interactive">
+                <div class="card-body">
+                    <div class="section-heading" style="margin-bottom:0.25rem;">Users</div>
+                    <div class="display-6" th:text="${userCount}">0</div>
+                    <a class="btn btn-link" style="padding-left:0;" th:href="@{/admin/users}">Manage →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card is-interactive">
+                <div class="card-body">
+                    <div class="section-heading" style="margin-bottom:0.25rem;">Stations</div>
+                    <div class="display-6" th:text="${stationCount}">0</div>
+                    <a class="btn btn-link" style="padding-left:0;" th:href="@{/admin/stations}">Manage →</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <div class="card-body">
+                    <div class="section-heading" style="margin-bottom:0.25rem;">Connectors</div>
+                    <div class="display-6" th:text="${connectorCount}">0</div>
+                    <div class="text-muted small">Managed per station</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card is-interactive">
+                <div class="card-body">
+                    <div class="section-heading" style="margin-bottom:0.25rem;">Bookings</div>
+                    <div class="display-6" th:text="${bookingCount}">0</div>
+                    <a class="btn btn-link" style="padding-left:0;" th:href="@{/admin/bookings}">Manage →</a>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 

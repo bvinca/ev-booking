@@ -45,7 +45,9 @@ management:
       show-details: never
 
 app:
-  instance-id: ${APP_INSTANCE_ID:${HOSTNAME:local-${random.uuid}}}
+  # Heroku exposes the dyno name (e.g. "web.1") via the DYNO env var;
+  # outside Heroku, fall back to HOSTNAME, then a random UUID.
+  instance-id: ${APP_INSTANCE_ID:${DYNO:${HOSTNAME:local-${random.uuid}}}}
   booking:
     slot-minutes: 30
     max-slots-per-booking: 16          # 8 hours max

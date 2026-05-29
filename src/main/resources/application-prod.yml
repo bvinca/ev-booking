@@ -1,11 +1,17 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    # Heroku's Java buildpack auto-derives JDBC_DATABASE_URL/_USERNAME/_PASSWORD
+    # from the postgres://… DATABASE_URL the Postgres add-on injects.
+    # SPRING_DATASOURCE_* is the fallback for other PaaS providers.
+    url:      ${JDBC_DATABASE_URL:${SPRING_DATASOURCE_URL}}
+    username: ${JDBC_DATABASE_USERNAME:${SPRING_DATASOURCE_USERNAME}}
+    password: ${JDBC_DATABASE_PASSWORD:${SPRING_DATASOURCE_PASSWORD}}
     hikari:
       maximum-pool-size: ${DB_POOL_MAX:10}
       minimum-idle: ${DB_POOL_MIN:2}
+      # Heroku Postgres requires SSL. Hibernate/JDBC honour these connection params.
+      data-source-properties:
+        sslmode: require
   jpa:
     properties:
       hibernate:

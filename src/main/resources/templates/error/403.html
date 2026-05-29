@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{fragments/layout :: head('403 · Forbidden')}"></head>
+<head th:replace="~{fragments/layout :: head('Forbidden · EV Booking')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
-<main class="container text-center my-5">
-    <h1 class="display-3">403</h1>
-    <p class="lead">You don't have permission to view this page.</p>
-    <p class="text-muted" th:if="${message}" th:text="${message}"></p>
-    <a class="btn btn-primary" th:href="@{/}">Go home</a>
-</main>
+<header th:replace="~{fragments/layout :: navbar}"></header>
+
+<div class="auth-wrap">
+    <div class="auth-card text-center">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:3.5rem; color:var(--text); letter-spacing:-0.04em;">403</div>
+        <h1 style="font-size:1.35rem;">Access denied</h1>
+        <p class="auth-sub" th:text="${message} ?: 'You do not have permission to view this page.'"></p>
+        <a class="btn btn-primary" th:href="@{/}">Back to home</a>
+    </div>
+</div>
+
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

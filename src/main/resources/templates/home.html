@@ -2,33 +2,69 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/layout :: head('Home · EV Booking')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
+
+<section class="hero">
+    <div class="container">
+        <span class="eyebrow">⚡ Live across the UK</span>
+        <h1>Book EV charging the way it should be — instant, fair, never double-booked.</h1>
+        <p class="lead">
+            Find public stations on a map, see real-time slot availability, and lock in a 30-minute charging
+            window in two clicks. Built for drivers who don't want to gamble on a parking lot.
+        </p>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" th:href="@{/stations}">Browse stations</a>
+            <a class="btn btn-outline-secondary btn-lg" th:href="@{/register}">Create free account</a>
+        </div>
+    </div>
+</section>
 
 <main class="container">
-    <div class="p-5 mb-4 bg-light rounded-3">
-        <div class="container-fluid py-4">
-            <h1 class="display-5 fw-bold">Find and book EV charging slots</h1>
-            <p class="col-md-9 fs-5">
-                Browse public charging stations on a map, see live connector availability,
-                and reserve a 30-minute slot in seconds.
-            </p>
-            <a class="btn btn-primary btn-lg" th:href="@{/stations}">Browse stations</a>
-            <a class="btn btn-outline-secondary btn-lg" th:href="@{/register}">Create an account</a>
+    <div class="row g-4 mt-1">
+        <div class="col-md-4">
+            <div class="feature">
+                <div class="icon">🗺️</div>
+                <h3>Map-first discovery</h3>
+                <p>Find chargers near you on an interactive map, filter by city, connector, or minimum power.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature">
+                <div class="icon">⚡</div>
+                <h3>Every connector type</h3>
+                <p>Type 2, CCS, CHAdeMO, and Tesla — power ratings from 22 kW commuter all the way to 350 kW ultra-rapid.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature">
+                <div class="icon">🔒</div>
+                <h3>Provably safe bookings</h3>
+                <p>Pessimistic row locks plus a database EXCLUDE constraint mean two drivers can never claim the same slot.</p>
+            </div>
         </div>
     </div>
 
-    <div class="row g-4">
-        <div class="col-md-4">
-            <h3>🗺️ Map view</h3>
-            <p>Find stations near you on an interactive map and inspect connectors and pricing.</p>
+    <div class="row g-4 mt-4">
+        <div class="col-md-7">
+            <h2>Made for serious drivers</h2>
+            <p class="text-muted" style="font-size: 1.05rem;">
+                Every booking is wrapped in a single database transaction. Race twenty drivers at the same slot
+                and exactly one wins — the rest get a clean error, not a corrupt reservation. The same
+                guarantees hold whether you're on one server or twenty.
+            </p>
         </div>
-        <div class="col-md-4">
-            <h3>⚡ Connectors</h3>
-            <p>Supports Type 2, CCS, CHAdeMO, and Tesla connectors with power ratings up to 350 kW.</p>
-        </div>
-        <div class="col-md-4">
-            <h3>🔒 Safe bookings</h3>
-            <p>Concurrency-safe reservations — no double-booking, even under heavy load.</p>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Quick start</h4>
+                    <ol style="padding-left: 1.25rem; line-height: 1.9; margin: 0;">
+                        <li>Create a free driver account</li>
+                        <li>Pick a station from the map</li>
+                        <li>Select a 30-minute window</li>
+                        <li>Confirm — you're booked</li>
+                    </ol>
+                </div>
+            </div>
         </div>
     </div>
 </main>

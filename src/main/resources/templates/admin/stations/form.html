@@ -2,54 +2,67 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/layout :: head('Admin · Station form')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
-<main class="container" style="max-width: 720px;">
-    <h1 th:text="${editing} ? 'Edit station' : 'New station'">Station form</h1>
+<main class="container" style="max-width: 760px;">
+    <a th:href="@{/admin/stations}" class="btn btn-link" style="padding-left:0;">← Back to stations</a>
 
-    <form th:action="${editing} ? @{/admin/stations/{id}(id=${stationId})} : @{/admin/stations}"
-          method="post" th:object="${stationRequest}">
-
-        <div class="row">
-            <div class="col-md-8 mb-3">
-                <label class="form-label">Name</label>
-                <input class="form-control" th:field="*{name}" required>
-                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-            </div>
-            <div class="col-md-4 mb-3">
-                <label class="form-label">City</label>
-                <input class="form-control" th:field="*{city}" required>
-                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
-            </div>
+    <div class="page-head">
+        <div>
+            <h1 th:text="${editing} ? 'Edit station' : 'New station'">Station form</h1>
+            <p class="sub">All fields are required unless marked optional.</p>
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label class="form-label">Address</label>
-            <input class="form-control" th:field="*{address}" required>
-            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+    <div class="card">
+        <div class="card-body">
+            <form th:action="${editing} ? @{/admin/stations/{id}(id=${stationId})} : @{/admin/stations}"
+                  method="post" th:object="${stationRequest}">
+
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label class="form-label">Name</label>
+                        <input class="form-control" th:field="*{name}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">City</label>
+                        <input class="form-control" th:field="*{city}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Address</label>
+                    <input class="form-control" th:field="*{address}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Latitude</label>
+                        <input class="form-control" type="number" step="0.000001" th:field="*{latitude}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Longitude</label>
+                        <input class="form-control" type="number" step="0.000001" th:field="*{longitude}" required>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Description <span class="text-muted">(optional)</span></label>
+                    <textarea class="form-control" rows="3" th:field="*{description}"></textarea>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">Save</button>
+                    <a class="btn btn-outline-secondary" th:href="@{/admin/stations}">Cancel</a>
+                </div>
+            </form>
         </div>
-
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Latitude</label>
-                <input class="form-control" type="number" step="0.000001" th:field="*{latitude}" required>
-                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}"></div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Longitude</label>
-                <input class="form-control" type="number" step="0.000001" th:field="*{longitude}" required>
-                <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}"></div>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea class="form-control" rows="3" th:field="*{description}"></textarea>
-        </div>
-
-        <button class="btn btn-primary" type="submit">Save</button>
-        <a class="btn btn-link" th:href="@{/admin/stations}">Cancel</a>
-    </form>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

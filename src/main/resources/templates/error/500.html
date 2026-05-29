@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="~{fragments/layout :: head('500 · Server error')}"></head>
+<head th:replace="~{fragments/layout :: head('Server error · EV Booking')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
-<main class="container text-center my-5">
-    <h1 class="display-3">500</h1>
-    <p class="lead">Something went wrong on our side. Please try again in a moment.</p>
-    <a class="btn btn-primary" th:href="@{/}">Go home</a>
-</main>
+<header th:replace="~{fragments/layout :: navbar}"></header>
+
+<div class="auth-wrap">
+    <div class="auth-card text-center">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:3.5rem; color:var(--text); letter-spacing:-0.04em;">500</div>
+        <h1 style="font-size:1.35rem;">Something went wrong</h1>
+        <p class="auth-sub" th:text="${message} ?: 'Please try again in a moment.'"></p>
+        <a class="btn btn-primary" th:href="@{/}">Back to home</a>
+    </div>
+</div>
+
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

@@ -2,47 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/layout :: head('Admin · Stations')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
 <main class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Manage stations</h1>
+    <div class="page-head">
+        <div>
+            <h1>Manage stations</h1>
+            <p class="sub">Create, edit, and remove stations and their connectors.</p>
+        </div>
         <a class="btn btn-primary" th:href="@{/admin/stations/new}">+ New station</a>
     </div>
 
-    <div th:if="${flashMessage}" class="alert alert-info" th:text="${flashMessage}"></div>
+    <div th:if="${flashMessage}" class="alert alert-success" th:text="${flashMessage}"></div>
 
-    <table class="table table-striped">
+    <table class="table">
         <thead>
         <tr><th>ID</th><th>Name</th><th>City</th><th>Connectors</th><th></th></tr>
         </thead>
         <tbody>
         <tr th:each="s : ${stations}">
-            <td th:text="${s.id}">1</td>
-            <td th:text="${s.name}">Name</td>
-            <td th:text="${s.city}">City</td>
+            <td class="text-muted" th:text="${s.id}">1</td>
             <td>
-                <div th:each="c : ${s.connectors}" class="d-inline-block me-2">
-                    <span class="badge bg-light text-dark"
-                          th:text="${c.connectorType + ' ' + c.powerKw + 'kW'}">type</span>
-                    <a th:href="@{/admin/connectors/{id}/edit(id=${c.id})}" class="small">edit</a>
-                    <form th:action="@{/admin/connectors/{id}/delete(id=${c.id})}" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-link btn-sm p-0 text-danger"
-                                onclick="return confirm('Delete this connector?')">delete</button>
-                    </form>
+                <strong th:text="${s.name}">Name</strong>
+            </td>
+            <td><span class="badge" th:text="${s.city}">City</span></td>
+            <td>
+                <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <span th:each="c : ${s.connectors}" class="badge">
+                        <span th:text="${c.connectorType}">type</span>
+                        · <span th:text="${c.powerKw}">22</span>kW
+                        <a th:href="@{/admin/connectors/{id}/edit(id=${c.id})}" class="ms-1" style="font-size:0.75rem;">edit</a>
+                    </span>
+                    <a class="btn btn-link btn-sm" th:href="@{/admin/stations/{id}/connectors/new(id=${s.id})}">+ Add connector</a>
                 </div>
-                <a th:href="@{/admin/stations/{id}/connectors/new(id=${s.id})}" class="small">+ add</a>
             </td>
             <td class="text-end">
-                <a th:href="@{/admin/stations/{id}/edit(id=${s.id})}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                <form th:action="@{/admin/stations/{id}/delete(id=${s.id})}" method="post" class="d-inline">
-                    <button class="btn btn-sm btn-outline-danger" type="submit"
+                <a th:href="@{/admin/stations/{id}/edit(id=${s.id})}" class="btn btn-outline-secondary btn-sm">Edit</a>
+                <form th:action="@{/admin/stations/{id}/delete(id=${s.id})}" method="post" style="display:inline;">
+                    <button class="btn btn-outline-danger btn-sm" type="submit"
                             onclick="return confirm('Delete station and its connectors?')">Delete</button>
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
+    <div th:if="${#lists.isEmpty(stations)}" class="card">
+        <div class="card-body text-center text-muted">No stations yet. Create the first one.</div>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

@@ -3,12 +3,17 @@ package com.smartcharge.evbooking.config;
 import com.smartcharge.evbooking.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 
 /**
  * Web security configuration.
@@ -74,7 +79,16 @@ public class SecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
             )
-            .exceptionHandling(ex -> ex.accessDeniedPage("/error/403"));
+            .exceptionHandling(ex -> ex
+                // REST clients get a clean 401; matcher order matters.
+                .defaultAuthenticationEntryPointFor(
+                    new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+                    new AntPathRequestMatcher("/api/**"))
+                // Everything else falls back to the form-login redirect.
+                .defaultAuthenticationEntryPointFor(
+                    new LoginUrlAuthenticationEntryPoint("/login"),
+                    AnyRequestMatcher.INSTANCE)
+                .accessDeniedPage("/error/403"));
         // CSRF protection is enabled by default. Thymeleaf form POSTs receive
         // the token automatically via the Spring Security/Thymeleaf integration.
 

@@ -2,34 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/layout :: head('My bookings · EV Booking')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
 <main class="container">
-    <h1>My bookings</h1>
+    <div class="page-head">
+        <div>
+            <h1>My bookings</h1>
+            <p class="sub">Active and historical reservations on your account.</p>
+        </div>
+        <a class="btn btn-primary" th:href="@{/stations}">New booking</a>
+    </div>
 
     <div th:if="${flashSuccess}" class="alert alert-success" th:text="${flashSuccess}"></div>
     <div th:if="${flashError}"   class="alert alert-danger"  th:text="${flashError}"></div>
 
-    <table class="table table-striped" th:if="${not #lists.isEmpty(bookings)}">
+    <table class="table" th:if="${not #lists.isEmpty(bookings)}">
         <thead>
-        <tr><th>Start</th><th>End</th><th>Station</th><th>Connector</th><th>Status</th><th></th></tr>
+        <tr>
+            <th>Start (UTC)</th><th>End (UTC)</th><th>Station</th><th>Connector</th><th>Status</th><th></th>
+        </tr>
         </thead>
         <tbody>
         <tr th:each="b : ${bookings}">
-            <td th:text="${#temporals.format(b.startTime, 'yyyy-MM-dd HH:mm')} + ' UTC'">start</td>
-            <td th:text="${#temporals.format(b.endTime,   'yyyy-MM-dd HH:mm')} + ' UTC'">end</td>
+            <td th:text="${#temporals.format(b.startTime, 'yyyy-MM-dd HH:mm')}">start</td>
+            <td th:text="${#temporals.format(b.endTime,   'yyyy-MM-dd HH:mm')}">end</td>
             <td th:text="${b.connector.station.name}">station</td>
-            <td th:text="${b.connector.connectorType} + ' · ' + ${b.connector.powerKw} + ' kW'">connector</td>
+            <td>
+                <span th:text="${b.connector.connectorType}">type</span> ·
+                <span th:text="${b.connector.powerKw}">22</span> kW
+            </td>
             <td>
                 <span th:if="${b.status.name() == 'CONFIRMED'}" class="badge bg-success">Confirmed</span>
                 <span th:if="${b.status.name() == 'CANCELLED'}" class="badge bg-secondary">Cancelled</span>
-                <span th:if="${b.status.name() == 'COMPLETED'}" class="badge bg-light text-dark">Completed</span>
+                <span th:if="${b.status.name() == 'COMPLETED'}" class="badge bg-info">Completed</span>
             </td>
-            <td>
+            <td class="text-end">
                 <form th:if="${b.status.name() == 'CONFIRMED'} and ${b.startTime.isAfter(now)}"
                       method="post"
                       th:action="@{/dashboard/bookings/{id}/cancel(id=${b.id})}">
-                    <button class="btn btn-sm btn-outline-danger"
+                    <button class="btn btn-outline-danger btn-sm"
                             type="submit"
                             onclick="return confirm('Cancel this booking?')">Cancel</button>
                 </form>
@@ -37,7 +48,11 @@
         </tr>
         </tbody>
     </table>
-    <p th:if="${#lists.isEmpty(bookings)}" class="text-muted">You have no bookings yet. <a th:href="@{/stations}">Browse stations</a> to make one.</p>
+    <div th:if="${#lists.isEmpty(bookings)}" class="card">
+        <div class="card-body text-center text-muted">
+            You haven't made any bookings yet. <a th:href="@{/stations}">Browse stations</a> to make one.
+        </div>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>

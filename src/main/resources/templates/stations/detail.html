@@ -2,45 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head th:replace="~{fragments/layout :: head(${station.name} + ' · EV Booking')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
 <main class="container">
-    <a th:href="@{/stations}" class="btn btn-link ps-0">← Back to all stations</a>
+    <a th:href="@{/stations}" class="btn btn-link" style="padding-left:0;">← All stations</a>
 
-    <h1 th:text="${station.name}">Station name</h1>
-    <p class="text-muted" th:text="${station.address + ' · ' + station.city}">Address</p>
-    <p th:if="${station.description}" th:text="${station.description}"></p>
+    <div class="page-head">
+        <div>
+            <h1 th:text="${station.name}">Station name</h1>
+            <p class="sub" th:text="${station.address + ' · ' + station.city}">Address</p>
+        </div>
+    </div>
 
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="map-frame" style="height:320px; max-width:100%;">
+    <p th:if="${station.description}" class="text-muted" style="max-width:64ch;" th:text="${station.description}"></p>
+
+    <div class="row g-4 mt-2">
+        <div class="col-md-5">
+            <h2 class="section-heading">Location</h2>
+            <div class="map-frame" style="height: 360px;">
                 <div id="stationMap"></div>
             </div>
         </div>
-        <div class="col-md-6">
-            <h3>Connectors</h3>
+        <div class="col-md-7">
+            <h2 class="section-heading">Connectors</h2>
             <table class="table">
                 <thead>
-                <tr><th>Type</th><th>Power</th><th>Price/h</th><th>Status</th><th></th></tr>
+                <tr><th>Type</th><th>Power</th><th>Price / h</th><th>Status</th><th></th></tr>
                 </thead>
                 <tbody>
                 <tr th:each="c : ${station.connectors}">
-                    <td th:text="${c.connectorType}">Type</td>
+                    <td>
+                        <strong th:text="${c.connectorType}">Type</strong>
+                    </td>
                     <td><span th:text="${c.powerKw}">22</span> kW</td>
                     <td>£<span th:text="${c.pricePerHour}">3.50</span></td>
                     <td>
                         <span th:if="${c.active}" class="badge bg-success">Active</span>
                         <span th:unless="${c.active}" class="badge bg-secondary">Inactive</span>
                     </td>
-                    <td>
+                    <td class="text-end">
                         <a sec:authorize="hasRole('DRIVER') or hasRole('ADMIN')"
                            th:if="${c.active}"
                            th:href="@{/bookings/new(connectorId=${c.id})}"
-                           class="btn btn-sm btn-primary">Book</a>
+                           class="btn btn-primary btn-sm">Book</a>
                         <a sec:authorize="!isAuthenticated()"
                            th:if="${c.active}"
                            th:href="@{/login}"
-                           class="btn btn-sm btn-outline-primary">Log in to book</a>
+                           class="btn btn-outline-primary btn-sm">Sign in to book</a>
                     </td>
                 </tr>
                 </tbody>

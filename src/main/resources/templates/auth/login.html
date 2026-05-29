@@ -2,37 +2,42 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head th:replace="~{fragments/layout :: head('Login · EV Booking')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
-<main class="container" style="max-width: 480px;">
-    <h1 class="mb-4">Login</h1>
+<div class="auth-wrap">
+    <div class="auth-card">
+        <h1>Welcome back</h1>
+        <p class="auth-sub">Sign in to manage your bookings and reserve new ones.</p>
 
-    <div th:if="${param.error}" class="alert alert-danger">
-        Invalid email or password.
-    </div>
-    <div th:if="${param.logout}" class="alert alert-success">
-        You have been logged out.
-    </div>
-    <div th:if="${registrationSuccess}" class="alert alert-success">
-        Account created. Please log in.
-    </div>
-
-    <form th:action="@{/login}" method="post">
-        <div class="mb-3">
-            <label class="form-label" for="email">Email</label>
-            <input class="form-control" id="email" name="email" type="email" required autofocus>
+        <div th:if="${param.error}" class="alert alert-danger">
+            Invalid email or password.
         </div>
-        <div class="mb-3">
-            <label class="form-label" for="password">Password</label>
-            <input class="form-control" id="password" name="password" type="password" required>
+        <div th:if="${param.logout}" class="alert alert-success">
+            You have been signed out.
         </div>
-        <button class="btn btn-primary w-100" type="submit">Log in</button>
-    </form>
+        <div th:if="${registrationSuccess}" class="alert alert-success">
+            Account created. Please sign in.
+        </div>
 
-    <p class="text-center mt-3">
-        No account? <a th:href="@{/register}">Register</a>.
-    </p>
-</main>
+        <form th:action="@{/login}" method="post">
+            <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-control" id="email" name="email" type="email"
+                       placeholder="you@example.com" required autofocus>
+            </div>
+            <div class="mb-4">
+                <label class="form-label" for="password">Password</label>
+                <input class="form-control" id="password" name="password" type="password"
+                       placeholder="••••••••" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Sign in</button>
+        </form>
+
+        <p class="auth-foot">
+            New to EV Booking? <a th:href="@{/register}">Create an account</a>
+        </p>
+    </div>
+</div>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>

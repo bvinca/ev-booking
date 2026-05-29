@@ -48,14 +48,17 @@ class BookingServiceConcurrencyTest extends AbstractPostgresIT {
         // Arrange — fresh station + connector + N drivers
         Long connectorId = seedStationAndGetConnectorId();
         int N = 20;
+        long runId = System.nanoTime(); // make emails unique across re-runs
         List<Long> driverIds = new ArrayList<>();
         for (int i = 0; i < N; i++) {
             driverIds.add(userService.registerDriver(
-                "Racer " + i, "racer" + i + "@example.com", "password123").getId());
+                "Racer " + i, "racer" + i + "_" + runId + "@example.com", "password123").getId());
         }
         // All threads target the same slot, far enough in the future to pass policy.
+        // Connector is created fresh per run, so the slot can't collide with prior runs.
         Instant start = LocalDateTime.now(ZoneOffset.UTC)
-            .plusDays(1).withMinute(0).withSecond(0).withNano(0).toInstant(ZoneOffset.UTC);
+            .plusDays(1).withHour(10).withMinute(0).withSecond(0).withNano(0)
+            .toInstant(ZoneOffset.UTC);
         Instant end = start.plusSeconds(30 * 60);
 
         // Act — all threads start at the same moment via a CountDownLatch

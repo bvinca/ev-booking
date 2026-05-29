@@ -2,52 +2,71 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head th:replace="~{fragments/layout :: head('Dashboard · EV Booking')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<header th:replace="~{fragments/layout :: navbar}"></header>
 
 <main class="container">
-    <h1>Welcome, <span sec:authentication="principal.fullName">Driver</span></h1>
+    <div class="page-head">
+        <div>
+            <h1>Welcome,
+                <span th:with="p=${#authentication?.principal}"
+                      th:text="${p instanceof T(com.smartcharge.evbooking.security.SecurityUser) ? p.fullName : #authentication?.name}">Driver</span>
+            </h1>
+            <p class="sub">Your charging at a glance.</p>
+        </div>
+        <a class="btn btn-primary" th:href="@{/stations}">Find a station →</a>
+    </div>
 
-    <div class="row mt-4">
+    <div class="row g-3">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card stat-card">
                 <div class="card-body">
-                    <h5 class="card-title">Upcoming bookings</h5>
-                    <p class="display-6" th:text="${#lists.size(upcoming)}">0</p>
+                    <div class="section-heading" style="margin-bottom: 0.25rem;">Upcoming</div>
+                    <div class="display-6" th:text="${#lists.size(upcoming)}">0</div>
+                    <div class="text-muted small">Bookings in the future</div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card stat-card">
                 <div class="card-body">
-                    <h5 class="card-title">Total bookings</h5>
-                    <p class="display-6" th:text="${totalCount}">0</p>
+                    <div class="section-heading" style="margin-bottom: 0.25rem;">Total</div>
+                    <div class="display-6" th:text="${totalCount}">0</div>
+                    <div class="text-muted small">All-time reservations</div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="card">
+            <div class="card stat-card">
                 <div class="card-body">
-                    <h5 class="card-title">Quick actions</h5>
-                    <a class="btn btn-primary mb-2 w-100" th:href="@{/stations}">Find a station</a>
+                    <div class="section-heading" style="margin-bottom: 0.5rem;">Manage</div>
                     <a class="btn btn-outline-secondary w-100" th:href="@{/dashboard/bookings}">My bookings</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <h3 class="mt-5">Next bookings</h3>
+    <h2 class="section-heading mt-5">Next bookings</h2>
     <table class="table" th:if="${not #lists.isEmpty(upcoming)}">
-        <thead><tr><th>When</th><th>Station</th><th>Connector</th><th></th></tr></thead>
+        <thead><tr><th>When (UTC)</th><th>Station</th><th>Connector</th><th></th></tr></thead>
         <tbody>
         <tr th:each="b : ${upcoming}">
-            <td th:text="${#temporals.format(b.startTime, 'yyyy-MM-dd HH:mm')} + ' UTC'">when</td>
+            <td th:text="${#temporals.format(b.startTime, 'yyyy-MM-dd HH:mm')}">when</td>
             <td th:text="${b.connector.station.name}">station</td>
-            <td th:text="${b.connector.connectorType} + ' · ' + ${b.connector.powerKw} + ' kW'">connector</td>
-            <td><a class="btn btn-sm btn-link" th:href="@{/dashboard/bookings}">Manage</a></td>
+            <td>
+                <span th:text="${b.connector.connectorType}">type</span> ·
+                <span th:text="${b.connector.powerKw}">22</span> kW
+            </td>
+            <td class="text-end">
+                <a class="btn btn-outline-secondary btn-sm" th:href="@{/dashboard/bookings}">Manage</a>
+            </td>
         </tr>
         </tbody>
     </table>
-    <p th:if="${#lists.isEmpty(upcoming)}" class="text-muted">No upcoming bookings yet.</p>
+    <div th:if="${#lists.isEmpty(upcoming)}" class="card">
+        <div class="card-body text-center text-muted">
+            No upcoming bookings yet. <a th:href="@{/stations}">Browse stations</a> to make one.
+        </div>
+    </div>
 </main>
 
 <footer th:replace="~{fragments/layout :: footer}"></footer>
