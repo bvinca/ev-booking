@@ -52,36 +52,45 @@ public class DataSeeder {
             userService.registerDriver("Demo Driver", "driver@example.com", "password123");
         } catch (EmailAlreadyUsedException ignored) { }
 
-        seedStation("York Central", "Coppergate Walk", "York",
-            new BigDecimal("53.957800"), new BigDecimal("-1.080500"),
-            new Connector(null, ConnectorType.CCS,    new BigDecimal("50.0"),  new BigDecimal("6.50")),
-            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("3.20")),
-            new Connector(null, ConnectorType.CHADEMO,new BigDecimal("50.0"),  new BigDecimal("6.50"))
+        // Six stations across Thessaloniki, Greece.
+        seedStation("Aristotelous Square Hub", "Plateia Aristotelous", "Thessaloniki",
+            new BigDecimal("40.632300"), new BigDecimal("22.941700"),
+            new Connector(null, ConnectorType.CCS,    new BigDecimal("150.0"), new BigDecimal("0.42")),
+            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("0.18")),
+            new Connector(null, ConnectorType.CHADEMO,new BigDecimal("50.0"),  new BigDecimal("0.35"))
         );
 
-        seedStation("Leeds Trinity", "Albion St", "Leeds",
-            new BigDecimal("53.798200"), new BigDecimal("-1.543800"),
-            new Connector(null, ConnectorType.CCS,    new BigDecimal("150.0"), new BigDecimal("11.00")),
-            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("3.50"))
+        seedStation("White Tower Waterfront", "Leoforos Nikis 30", "Thessaloniki",
+            new BigDecimal("40.626100"), new BigDecimal("22.948600"),
+            new Connector(null, ConnectorType.CCS,    new BigDecimal("50.0"),  new BigDecimal("0.34")),
+            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("0.18"))
         );
 
-        seedStation("Manchester Piccadilly", "London Rd", "Manchester",
-            new BigDecimal("53.477500"), new BigDecimal("-2.230900"),
-            new Connector(null, ConnectorType.CCS,    new BigDecimal("350.0"), new BigDecimal("18.50")),
-            new Connector(null, ConnectorType.TESLA,  new BigDecimal("250.0"), new BigDecimal("15.00")),
-            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("3.20"))
+        seedStation("Ladadika Quarter", "Katouni 12", "Thessaloniki",
+            new BigDecimal("40.635400"), new BigDecimal("22.935100"),
+            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("0.20")),
+            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("11.0"),  new BigDecimal("0.16"))
         );
 
-        seedStation("London King's Cross", "York Way", "London",
-            new BigDecimal("51.530900"), new BigDecimal("-0.123700"),
-            new Connector(null, ConnectorType.CCS,    new BigDecimal("150.0"), new BigDecimal("12.00")),
-            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("4.00"))
+        seedStation("HELEXPO Fairgrounds", "Egnatia 154", "Thessaloniki",
+            new BigDecimal("40.619000"), new BigDecimal("22.959400"),
+            new Connector(null, ConnectorType.CCS,    new BigDecimal("350.0"), new BigDecimal("0.55")),
+            new Connector(null, ConnectorType.TESLA,  new BigDecimal("250.0"), new BigDecimal("0.48")),
+            new Connector(null, ConnectorType.CCS,    new BigDecimal("150.0"), new BigDecimal("0.42"))
         );
 
-        seedStation("Edinburgh Waverley", "Princes St", "Edinburgh",
-            new BigDecimal("55.952100"), new BigDecimal("-3.190700"),
-            new Connector(null, ConnectorType.CCS,    new BigDecimal("50.0"),  new BigDecimal("7.00")),
-            new Connector(null, ConnectorType.CHADEMO,new BigDecimal("50.0"),  new BigDecimal("7.00"))
+        seedStation("Kalamaria Marina", "Megalou Alexandrou 1", "Kalamaria",
+            new BigDecimal("40.583000"), new BigDecimal("22.953000"),
+            new Connector(null, ConnectorType.CCS,    new BigDecimal("100.0"), new BigDecimal("0.38")),
+            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("0.18")),
+            new Connector(null, ConnectorType.CHADEMO,new BigDecimal("50.0"),  new BigDecimal("0.34"))
+        );
+
+        seedStation("Mediterranean Cosmos Mall", "11ο χλμ Ε.Ο. Θεσσαλονίκης - Ν. Μουδανιών", "Pylaia",
+            new BigDecimal("40.534500"), new BigDecimal("23.004000"),
+            new Connector(null, ConnectorType.CCS,    new BigDecimal("180.0"), new BigDecimal("0.45")),
+            new Connector(null, ConnectorType.TESLA,  new BigDecimal("250.0"), new BigDecimal("0.48")),
+            new Connector(null, ConnectorType.TYPE2,  new BigDecimal("22.0"),  new BigDecimal("0.20"))
         );
 
         log.info("Seed complete. Stations: {}", stationRepository.count());

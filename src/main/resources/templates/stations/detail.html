@@ -35,7 +35,7 @@
                         <strong th:text="${c.connectorType}">Type</strong>
                     </td>
                     <td><span th:text="${c.powerKw}">22</span> kW</td>
-                    <td>£<span th:text="${c.pricePerHour}">3.50</span></td>
+                    <td>€<span th:text="${c.pricePerHour}">0.42</span></td>
                     <td>
                         <span th:if="${c.active}" class="badge bg-success">Active</span>
                         <span th:unless="${c.active}" class="badge bg-secondary">Inactive</span>
@@ -65,10 +65,16 @@
     const lng = /*[[${station.longitude}]]*/ 0;
     const name = /*[[${station.name}]]*/ '';
     const map = L.map('stationMap').setView([lat, lng], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        subdomains: 'abcd', maxZoom: 19
     }).addTo(map);
-    L.marker([lat, lng]).addTo(map).bindPopup(name).openPopup();
+    const brandIcon = L.divIcon({
+        className: 'ev-marker',
+        html: '<div style="width:26px;height:26px;border-radius:50%;background:#00AEEF;border:3px solid #0F172A;box-shadow:0 0 0 2px #00AEEF, 0 4px 12px rgba(0,174,239,0.6);display:grid;place-items:center;color:#0F172A;font-weight:900;font-size:13px;">⚡</div>',
+        iconSize: [26, 26], iconAnchor: [13, 13]
+    });
+    L.marker([lat, lng], { icon: brandIcon }).addTo(map).bindPopup(name).openPopup();
 </script>
 </body>
 </html>
