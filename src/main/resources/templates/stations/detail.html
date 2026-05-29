@@ -19,12 +19,13 @@
     <div class="row g-4 mt-2">
         <div class="col-md-5">
             <h2 class="section-heading">Location</h2>
-            <div class="map-frame" style="height: 360px;">
+            <div class="map-frame map-frame--detail">
                 <div id="stationMap"></div>
             </div>
         </div>
         <div class="col-md-7">
             <h2 class="section-heading">Connectors</h2>
+            <div class="table-responsive">
             <table class="table">
                 <thead>
                 <tr><th>Type</th><th>Power</th><th>Price / h</th><th>Status</th><th></th></tr>
@@ -53,6 +54,7 @@
                 </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </main>
@@ -75,6 +77,9 @@
         iconSize: [26, 26], iconAnchor: [13, 13]
     });
     L.marker([lat, lng], { icon: brandIcon }).addTo(map).bindPopup(name).openPopup();
+    function refreshMapSize() { map.invalidateSize(); }
+    window.addEventListener('resize', refreshMapSize);
+    setTimeout(refreshMapSize, 0);
 </script>
 </body>
 </html>

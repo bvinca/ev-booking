@@ -17,7 +17,7 @@
     </div>
 
     <div class="row g-3">
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
             <div class="card stat-card">
                 <div class="card-body">
                     <div class="section-heading" style="margin-bottom: 0.25rem;">Upcoming</div>
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
             <div class="card stat-card">
                 <div class="card-body">
                     <div class="section-heading" style="margin-bottom: 0.25rem;">Total</div>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-6 col-md-4">
             <div class="card stat-card">
                 <div class="card-body">
                     <div class="section-heading" style="margin-bottom: 0.5rem;">Manage</div>
@@ -46,7 +46,8 @@
     </div>
 
     <h2 class="section-heading mt-5">Next bookings</h2>
-    <table class="table" th:if="${not #lists.isEmpty(upcoming)}">
+    <div class="table-responsive" th:if="${not #lists.isEmpty(upcoming)}">
+    <table class="table">
         <thead><tr><th>When (UTC)</th><th>Station</th><th>Connector</th><th></th></tr></thead>
         <tbody>
         <tr th:each="b : ${upcoming}">
@@ -62,6 +63,7 @@
         </tr>
         </tbody>
     </table>
+    </div>
     <div th:if="${#lists.isEmpty(upcoming)}" class="card">
         <div class="card-body text-center text-muted">
             No upcoming bookings yet. <a th:href="@{/stations}">Browse stations</a> to make one.

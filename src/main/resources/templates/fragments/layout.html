@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head th:fragment="head(title)">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="_csrf" th:content="${_csrf?.token}"/>
     <meta name="_csrf_header" th:content="${_csrf?.headerName}"/>
     <title th:text="${title} ?: 'EV Booking'">EV Booking</title>
@@ -17,17 +17,25 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
     <link rel="stylesheet" th:href="@{/css/app.css}">
+    <script th:src="@{/js/nav.js}" defer></script>
 </head>
 <body>
 
 <header th:fragment="navbar" class="app-nav">
-    <div class="container">
+    <div class="container app-nav-inner">
         <a class="app-brand" th:href="@{/}">
             <span class="logo">⚡</span>
-            <span>EV Booking</span>
+            <span class="app-brand-text">EV Booking</span>
         </a>
 
-        <nav>
+        <button type="button" class="nav-toggle" data-nav-toggle
+                aria-expanded="false" aria-controls="main-nav" aria-label="Open menu">
+            <span class="nav-toggle-bar" aria-hidden="true"></span>
+            <span class="nav-toggle-bar" aria-hidden="true"></span>
+            <span class="nav-toggle-bar" aria-hidden="true"></span>
+        </button>
+
+        <nav id="main-nav" class="nav-panel" aria-label="Main">
             <ul class="nav-links">
                 <li><a th:href="@{/stations}">Stations</a></li>
                 <li sec:authorize="isAuthenticated()"><a th:href="@{/dashboard}">Dashboard</a></li>
@@ -55,7 +63,7 @@
 </header>
 
 <footer th:fragment="footer" class="app-footer">
-    <div class="container d-flex flex-wrap justify-content-between gap-2">
+    <div class="container app-footer-inner">
         <span>EV Booking · University of York coursework</span>
         <span>Instance: <code th:text="${@environment.getProperty('app.instance-id')}">instance</code></span>
     </div>

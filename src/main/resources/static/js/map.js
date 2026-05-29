@@ -5,6 +5,13 @@
     if (!mapEl) return;
 
     const map = L.map('stationMap');
+    function refreshMapSize() {
+        map.invalidateSize();
+    }
+    window.addEventListener('resize', refreshMapSize);
+    if (window.ResizeObserver) {
+        new ResizeObserver(refreshMapSize).observe(mapEl);
+    }
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
@@ -40,6 +47,7 @@
             });
             group.addTo(map);
             map.fitBounds(group.getBounds().pad(0.2));
+            setTimeout(refreshMapSize, 0);
         })
         .catch(err => {
             console.error('Failed to load stations', err);

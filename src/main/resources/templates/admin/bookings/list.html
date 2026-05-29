@@ -14,6 +14,7 @@
 
     <div th:if="${flashMessage}" class="alert alert-success" th:text="${flashMessage}"></div>
 
+    <div class="table-responsive table-responsive--wide">
     <table class="table">
         <thead>
         <tr>
@@ -52,6 +53,7 @@
         </tr>
         </tbody>
     </table>
+    </div>
     <div th:if="${#lists.isEmpty(bookings)}" class="card">
         <div class="card-body text-center text-muted">No bookings yet.</div>
     </div>

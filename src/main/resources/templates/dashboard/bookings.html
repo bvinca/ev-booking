@@ -16,7 +16,8 @@
     <div th:if="${flashSuccess}" class="alert alert-success" th:text="${flashSuccess}"></div>
     <div th:if="${flashError}"   class="alert alert-danger"  th:text="${flashError}"></div>
 
-    <table class="table" th:if="${not #lists.isEmpty(bookings)}">
+    <div class="table-responsive table-responsive--wide" th:if="${not #lists.isEmpty(bookings)}">
+    <table class="table">
         <thead>
         <tr>
             <th>Start (UTC)</th><th>End (UTC)</th><th>Station</th><th>Connector</th><th>Status</th><th></th>
@@ -48,6 +49,7 @@
         </tr>
         </tbody>
     </table>
+    </div>
     <div th:if="${#lists.isEmpty(bookings)}" class="card">
         <div class="card-body text-center text-muted">
             You haven't made any bookings yet. <a th:href="@{/stations}">Browse stations</a> to make one.
